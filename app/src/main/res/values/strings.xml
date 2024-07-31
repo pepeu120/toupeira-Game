@@ -2,4 +2,5 @@
     <string name="app_name">game</string>
     <string name="pontuacao_atual">Acertos</string>
     <string name="pontuacao_inicial">0</string>
+    <string name="record">Record</string>
 </resources>

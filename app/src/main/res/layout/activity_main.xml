@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pontuacaoAtual"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,35 +16,43 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewPontuacaoAtual"
+        android:id="@+id/pontuacaoAtual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
-        android:hint="0"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/editTextPontuacaoAtual"
+        android:hint="@string/pontuacao_inicial"
+        app:layout_constraintStart_toEndOf="@+id/textViewPontuacaoAtual"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/editTextPontuacaoAtual"
+        android:id="@+id/textViewRecord"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:text="@string/record"
+        app:layout_constraintEnd_toStartOf="@+id/record"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewPontuacaoAtual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:ems="10"
         android:text="@string/pontuacao_atual"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
         android:layout_marginTop="16dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/textViewPontuacaoAtual"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/pontuacao_inicial"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
