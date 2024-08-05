@@ -3,52 +3,57 @@ package com.example.game
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import android.os.Handler
-import android.os.Looper
 import android.widget.ImageView
-import kotlin.random.Random
-
+import android.widget.Button
+import android.media.MediaPlayer
+import android.view.View
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var gameController: GameController
     private lateinit var topeira: ImageView
-    private val handler = Handler(Looper.getMainLooper())
-    val VELOCIDADE_INICIAL = 1500L
-    val TEMPO_PARA_DECREMENTAR = 50L
-    var velocidadeAtual = VELOCIDADE_INICIAL
-    private var acertos = 0
+    private lateinit var pontuacaoAtual: TextView
+    private lateinit var recordeTextView: TextView
+    private lateinit var resetButton: Button
+    private lateinit var soundPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         topeira = findViewById(R.id.imagemTopeira)
-        val pontuacaoAtual: TextView = findViewById(R.id.pontuacaoAtual)
+        pontuacaoAtual = findViewById(R.id.pontuacaoAtual)
+        recordeTextView = findViewById(R.id.recorde)
+        resetButton = findViewById(R.id.resetButton)
+        soundPlayer = MediaPlayer.create(this, R.raw.som_acerto)
 
+        gameController = GameController(topeira,
+            onScoreUpdate = { acertos ->
+                pontuacaoAtual.text = acertos.toString()
+            },
+            onHighScoreUpdate = { recorde ->
+                recordeTextView.text = recorde.toString()
+            },
+            onReset = {
+                pontuacaoAtual.text = "0"
+            },
+            soundPlayer = soundPlayer
+        )
 
-        topeira.setOnClickListener {
-            acertos++
-            pontuacaoAtual.text = acertos.toString()
-            decrementaTempo(TEMPO_PARA_DECREMENTAR)
+        resetButton.setOnClickListener {
+            gameController.resetarJogo()
         }
 
-        val moverTopera = object : Runnable {
-            override fun run() {
-                val maxX = resources.displayMetrics.widthPixels - topeira.width
-                val maxY = resources.displayMetrics.heightPixels - topeira.height
-                val randomX = Random.nextInt(maxX)
-                val randomY = Random.nextInt(maxY)
-                topeira.x = randomX.toFloat()
-                topeira.y = randomY.toFloat()
-                handler.postDelayed(this, velocidadeAtual)
+        // Detecção de toque fora da topeira
+        findViewById<View>(android.R.id.content).setOnClickListener {
+            if (it.id != R.id.imagemTopeira) {
+                gameController.resetarJogo()
             }
         }
-
-
-        handler.post(moverTopera)
     }
-    fun decrementaTempo(tempo: Long) {
-        velocidadeAtual -= tempo
+
+    override fun onDestroy() {
+        super.onDestroy()
+        soundPlayer.release()
     }
 }
-
